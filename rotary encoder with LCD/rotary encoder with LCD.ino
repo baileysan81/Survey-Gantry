@@ -14,23 +14,17 @@ int angle = 0;
 int aState;
 int aLastState;  
 
-void clearScreen()
-{
-  //clears the screen, you will use this a lot!
+void clearScreen() {
   LCD.write(0xFE);
   LCD.write(0x01); 
 }
 
-void selectLineOne()
-{ 
-  //puts the cursor at line 0 char 0.
+void selectLineOne() { 
   LCD.write(0xFE); //command flag
   LCD.write(128); //position
 }
 
-void selectLineTwo()
-{ 
-  //puts the cursor at line 0 char 0.
+void selectLineTwo() { 
   LCD.write(0xFE); //command flag
   LCD.write(192); //position
 }
@@ -57,7 +51,6 @@ void pressHandler (BfButton *btn, BfButton::press_pattern_t pattern) {
 }
 
 void setup() {
-  // put your setup code here, to run once:
   Serial.begin(9600);
   LCD.begin(9600);
   delay(500);
@@ -74,23 +67,17 @@ void setup() {
 }
 
 void loop() {
-  // put your main code here, to run repeatedly:
-
   //Wait for button press to execute commands
   btn.read();
-  
   aState = digitalRead(CLK);
 
   //Encoder rotation tracking
-
-  
-  if (aState != aLastState){  
+  if (aState != aLastState) {  
     clearScreen();
      if (digitalRead(DT) != aState) { 
        counter ++;
        angle ++;
-     }
-     else {
+     } else {
        counter--;
        angle --;
      }
@@ -103,11 +90,6 @@ void loop() {
        counter =-100;
      }
 
-    // if (aLastCount > counter) {
-    //   digitalWrite(LaserPin, HIGH);
-    // } else {
-    //   digitalWrite(LaserPin, LOW);
-    // }     
     if ((counter <= 1) && (counter >= -1)) {
       selectLineOne();
       LCD.print ("Home");
@@ -148,6 +130,4 @@ void loop() {
     Serial.println(counter); 
   }   
   aLastState = aState;
-  //Serial.println(aState);
-  //Serial.println(aLastCount);
 }
